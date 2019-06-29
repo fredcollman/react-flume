@@ -1,0 +1,29 @@
+.width-m {
+  width: 32em;
+}
+
+.height-m {
+  height: 18em;
+}
+
+.bg-subtle {
+  background-color: #0ff1;
+}
+
+.height-full {
+  height: 100%;
+}
+
+.cover {
+  display: flex;
+  flex-direction: column;
+}
+
+.cover > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.center {
+  text-align: center;
+}
