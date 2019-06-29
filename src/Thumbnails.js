@@ -6,11 +6,11 @@ type Props = {
 };
 
 const Thumbnail = ({ children }: Props) => (
-  <div className="width-m height-m bg-subtle">{children}</div>
+  <div className="bg-subtle">{children}</div>
 );
 
 const Thumbnails = ({ children }: Props) => (
-  <aside className="stack stack-m scale-half">
+  <aside className="stack stack-m scale-half width-m">
     {React.Children.map(children, child => (
       <Thumbnail>{child}</Thumbnail>
     ))}

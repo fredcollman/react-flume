@@ -9,16 +9,14 @@ import ShowBorder from "./ShowBorder";
 
 const App = () => (
   <main className="with-sidebar">
-    <ShowBorder color="blue">
-      <Thumbnails>
-        <TitleSlide title="Title Slide" subtitle="by Sub Title" />
-        <SimpleSlide title="Slide #2">
-          You can put whatever content you want here
-        </SimpleSlide>
-      </Thumbnails>
-    </ShowBorder>
+    <Thumbnails>
+      <TitleSlide title="Title Slide" subtitle="by Sub Title" />
+      <SimpleSlide title="Slide #2">
+        You can put whatever content you want here
+      </SimpleSlide>
+    </Thumbnails>
     <section>
-      <TitleSlide height="100vh" title="Title Slide" subtitle="by Sub Title" />
+      <TitleSlide title="Title Slide" subtitle="by Sub Title" />
     </section>
   </main>
 );
