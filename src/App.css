@@ -6,7 +6,7 @@
   --ratio: 1.5;
   --s-2: calc(var(--s-1) / var(--ratio));
   --s-1: calc(var(--s0) / var(--ratio));
-  --s0: 1rem;
+  --s0: 1em;
   --s1: calc(var(--s0) * var(--ratio));
   --s2: calc(var(--s1) * var(--ratio));
   --s3: calc(var(--s2) * var(--ratio));
@@ -59,6 +59,6 @@
   text-align: center;
 }
 
-article h1 {
+h1 {
   font-size: var(--s3);
 }

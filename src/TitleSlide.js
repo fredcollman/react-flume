@@ -4,12 +4,10 @@ import React from "react";
 type Props = { title: string, subtitle: string };
 
 const TitleSlide = ({ title, subtitle }: Props) => (
-  <article className="width-m height-m bg-subtle">
-    <div className="cover height-full">
-      <div className="center">
-        <h1>{title}</h1>
-        <h2>{subtitle}</h2>
-      </div>
+  <article className="height-full cover">
+    <div className="center">
+      <h1>{title}</h1>
+      <h2>{subtitle}</h2>
     </div>
   </article>
 );
