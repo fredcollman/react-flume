@@ -1,9 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --ratio: 1.5;
+  --s-2: calc(var(--s-1) / var(--ratio));
+  --s-1: calc(var(--s0) / var(--ratio));
+  --s0: 1rem;
+  --s1: calc(var(--s0) * var(--ratio));
+  --s2: calc(var(--s1) * var(--ratio));
+  --s3: calc(var(--s2) * var(--ratio));
+  --s4: calc(var(--s3) * var(--ratio));
+}
+
 .width-m {
   width: 32em;
 }
 
 .height-m {
   height: 18em;
+}
+
+.padding-m {
+  padding: var(--s1);
+}
+
+.stack-m {
+  --space: var(--s1);
+}
+
+.stack > * {
+  margin: 0;
+}
+
+.stack > * + * {
+  margin-top: var(--space, var(--s0));
 }
 
 .bg-subtle {
@@ -26,4 +57,8 @@
 
 .center {
   text-align: center;
+}
+
+article h1 {
+  font-size: var(--s3);
 }
