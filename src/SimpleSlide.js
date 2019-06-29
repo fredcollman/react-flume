@@ -1,13 +1,14 @@
 // @flow
 import React, { type Node } from "react";
+import BaseSlide from "./BaseSlide";
 
 type Props = { title: string, children: Node };
 
 const SimpleSlide = ({ title, children }: Props) => (
-  <article className="padding-m">
+  <BaseSlide>
     <h2 className="center">{title}</h2>
     {children}
-  </article>
+  </BaseSlide>
 );
 
 export default SimpleSlide;
