@@ -5,20 +5,24 @@ import "./App.css";
 import TitleSlide from "./TitleSlide";
 import SimpleSlide from "./SimpleSlide";
 import Thumbnails from "./Thumbnails";
-import ShowBorder from "./ShowBorder";
+import WithSidebar from "./WithSidebar";
 
 const App = () => (
-  <main className="with-sidebar">
-    <Thumbnails>
-      <TitleSlide title="Title Slide" subtitle="by Sub Title" />
-      <SimpleSlide title="Slide #2">
-        You can put whatever content you want here
-      </SimpleSlide>
-    </Thumbnails>
-    <section>
-      <TitleSlide title="Title Slide" subtitle="by Sub Title" />
-    </section>
-  </main>
+  <WithSidebar
+    left={
+      <Thumbnails>
+        <TitleSlide title="Title Slide" subtitle="by Sub Title" />
+        <SimpleSlide title="Slide #2">
+          You can put whatever content you want here
+        </SimpleSlide>
+      </Thumbnails>
+    }
+    right={
+      <section>
+        <TitleSlide title="Title Slide" subtitle="by Sub Title" />
+      </section>
+    }
+  />
 );
 
 export default hot(App);

@@ -58,16 +58,3 @@ h1 {
 .scale-half {
   font-size: 0.5em;
 }
-
-.with-sidebar {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.with-sidebar > :first-child {
-  flex-grow: 1;
-}
-
-.with-sidebar > :last-child {
-  flex-grow: 999;
-}
