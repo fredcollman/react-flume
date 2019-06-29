@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react-dom": "npm:@hot-loader/react-dom",
+    "react-hot-loader": "^4.11.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
@@ -36,7 +37,6 @@
     "@storybook/addon-links": "^5.1.9",
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
-    "babel-loader": "^8.0.5",
     "prettier": "^1.18.2"
   }
 }
