@@ -1,4 +1,4 @@
 {
-  "presets": ["flow"],
+  "presets": ["@babel/flow"],
   "plugins": ["react-hot-loader/babel"]
 }
