@@ -41,10 +41,6 @@
   background-color: #0ff1;
 }
 
-.height-full {
-  height: 100%;
-}
-
 .cover {
   display: flex;
   flex-direction: column;
@@ -65,4 +61,17 @@ h1 {
 
 .scale-half {
   font-size: 0.5em;
+}
+
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.with-sidebar > :first-child {
+  flex-grow: 1;
+}
+
+.with-sidebar > :last-child {
+  flex-grow: 999;
 }
