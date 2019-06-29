@@ -11,6 +11,7 @@
   --s2: calc(var(--s1) * var(--ratio));
   --s3: calc(var(--s2) * var(--ratio));
   --s4: calc(var(--s3) * var(--ratio));
+  --text-color: black;
 }
 
 .width-m {
@@ -57,4 +58,12 @@ h1 {
 
 .scale-half {
   font-size: 0.5em;
+}
+
+.color-standard {
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
 }

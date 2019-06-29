@@ -1,18 +1,20 @@
 // @flow
 import React, { type Node } from "react";
 
-type Props = {
-  children: Node,
-};
+type Props = { onSwitch?: number => mixed, children: Node };
 
-const Thumbnail = ({ children }: Props) => (
-  <div className="bg-subtle">{children}</div>
-);
-
-const Thumbnails = ({ children }: Props) => (
+const Thumbnails = ({ onSwitch, children }: Props) => (
   <aside className="stack stack-m scale-half width-m">
-    {React.Children.map(children, child => (
-      <Thumbnail>{child}</Thumbnail>
+    {React.Children.map(children, (child, index) => (
+      <div className="bg-subtle">
+        <a
+          className="color-standard"
+          href={`#slide-${index}`}
+          onClick={() => onSwitch && onSwitch(index)}
+        >
+          {child}
+        </a>
+      </div>
     ))}
   </aside>
 );
