@@ -1,0 +1,13 @@
+.aspect-ratio {
+  --aspect-ratio: 1;
+  position: relative;
+  padding-bottom: calc(100% / var(--aspect-ratio));
+}
+
+.aspect-ratio > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

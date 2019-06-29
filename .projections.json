@@ -1,0 +1,36 @@
+{
+  "src/*.js": {
+    "type": "component",
+    "alternate": "src/{}.stories.js",
+    "template": [
+      "// @flow",
+      "import React from 'react'",
+      "",
+      "type Props = {open}{close}",
+      "",
+      "const {} = ({open}{close}: Props) => <div />",
+      "",
+      "export default {}"
+    ]
+  },
+  "src/*.stories.js": {
+    "type": "story",
+    "alternate": "src/{}.css",
+    "template": [
+      "// @flow",
+      "import React from 'react'",
+      "import {open} storiesOf {close} from '@storybook/react'",
+      "import {open} action {close} from '@storybook/addon-actions'",
+      "",
+      "import {} from './{}'",
+      "",
+      "storiesOf('{}', module)",
+      ".add('default', () => <{} />)"
+    ]
+  },
+  "src/*.css": {
+    "type": "stylesheet",
+    "alternate": "src/{}.js",
+    "template": [".{snakecase|hyphenate} {open}", "{close}"]
+  }
+}
