@@ -17,7 +17,22 @@
     "build-storybook": "build-storybook"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "eslint:recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:react/recommended",
+      "plugin:flowtype/recommended",
+      "prettier",
+      "prettier/flowtype",
+      "prettier/react"
+    ],
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "flowtype",
+      "prettier"
+    ]
   },
   "browserslist": {
     "production": [
@@ -39,6 +54,9 @@
     "@storybook/react": "^5.1.9",
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-flowtype": "^3.11.1",
+    "eslint-plugin-prettier": "^3.1.0",
     "flow-bin": "^0.102.0",
     "prettier": "^1.18.2"
   }
