@@ -47,51 +47,55 @@ type Props = {
 type State<T> = {
   selected: number,
   items: T[],
+  keys: string,
+};
+
+const next = state => Math.min(state.selected + 1, state.items.length - 1);
+const previous = state => Math.max(state.selected - 1, 0);
+const last = state => state.items.length - 1;
+
+const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
+  switch (keys) {
+    case "j":
+      return { ...state, keys: "", selected: next(state) };
+    case "k":
+      return { ...state, keys: "", selected: previous(state) };
+    case "G":
+      return { ...state, keys: "", selected: last(state) };
+  }
+  // reset due to unrecognised key sequence
+  return { ...state, keys: "" };
 };
 
 const reducer = <T>(state: State<T>, action): State<T> => {
   switch (action.type) {
-    case "next":
-      return {
-        ...state,
-        selected: Math.min(state.selected + 1, state.items.length - 1),
-      };
-    case "previous":
-      return { ...state, selected: Math.max(state.selected - 1, 0) };
-    case "last":
-      return { ...state, selected: state.items.length - 1 };
     case "goto":
-      return { ...state, selected: action.number };
+      return { ...state, keys: "", selected: action.index };
+    case "keydown":
+      return handleKeySequence(state, state.keys + action.key);
     default:
       return state;
   }
 };
 
 const App = ({ slides }: Props) => {
-  const [state, dispatch] = useReducer(reducer, { selected: 0, items: slides });
-  const onKeyDown = event => {
-    switch (event.key) {
-      case "j":
-        dispatch({ type: "next" });
-        break;
-      case "k":
-        dispatch({ type: "previous" });
-        break;
-      case "G":
-        dispatch({ type: "last" });
-        break;
-    }
-  };
+  const [state, dispatch] = useReducer(reducer, {
+    selected: 0,
+    items: slides,
+    keys: "",
+  });
+  const onKeyDown = event => dispatch({ type: "keydown", key: event.key });
   useEffect(() => {
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
   });
+  console.log(state);
   return (
     <WithSidebar
       left={
-        <Thumbnails onSwitch={i => dispatch({ type: "goto", number: i })}>
+        <Thumbnails onSwitch={i => dispatch({ type: "goto", index: i })}>
           {slides.map(slide =>
             React.cloneElement(slide.slide, { key: slide.id })
           )}
