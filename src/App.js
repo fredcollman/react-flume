@@ -53,6 +53,7 @@ type State<T> = {
 const next = state => Math.min(state.selected + 1, state.items.length - 1);
 const previous = state => Math.max(state.selected - 1, 0);
 const last = state => state.items.length - 1;
+const first = _ => 0;
 
 const transition = <T>(state: State<T>, callback): State<T> => ({
   ...state,
@@ -60,29 +61,33 @@ const transition = <T>(state: State<T>, callback): State<T> => ({
   selected: callback(state),
 });
 
-const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
+const parseMotion = keys => {
   switch (keys[0]) {
     case "g":
       switch (keys[1]) {
         case "g":
-          return transition(state, _ => 0);
+          return { valid: true, motion: first };
         case undefined:
-          return { ...state, keys };
+          return { valid: true };
         default:
-          break;
+          return { valid: false };
       }
-      break;
     case "j":
-      return transition(state, next);
+      return { valid: true, motion: next };
     case "k":
-      return transition(state, previous);
+      return { valid: true, motion: previous };
     case "G":
-      return transition(state, last);
+      return { valid: true, motion: last };
     default:
-      break;
+      return { valid: false };
   }
-  // reset due to unrecognised key sequence
-  return { ...state, keys: "" };
+};
+
+const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
+  const result = parseMotion(keys);
+  if (!result.valid) return { ...state, keys: "" };
+  if (!result.motion) return { ...state, keys };
+  return transition(state, result.motion);
 };
 
 const reducer = <T>(state: State<T>, action): State<T> => {
