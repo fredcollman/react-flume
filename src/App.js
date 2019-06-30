@@ -50,18 +50,33 @@ type State<T> = {
   keys: string,
 };
 
-const next = state => Math.min(state.selected + 1, state.items.length - 1);
-const previous = state => Math.max(state.selected - 1, 0);
-const last = state => state.items.length - 1;
-const first = _ => 0;
-
-const transition = <T>(state: State<T>, callback): State<T> => ({
+const lift = <X>(callback: X => number) => (state: X): X => ({
   ...state,
-  keys: "",
   selected: callback(state),
 });
 
-const parseMotion = keys => {
+const next = lift(state =>
+  Math.min(state.selected + 1, state.items.length - 1)
+);
+const previous = lift(state => Math.max(state.selected - 1, 0));
+const last = lift(state => state.items.length - 1);
+const first = lift(_ => 0);
+
+const repeat = <T>(times: number, func: T => T) => (state: T): T =>
+  [...Array(times)].reduce(func, state);
+
+type PossibleMotion<X> = { valid: boolean, motion?: X => X };
+
+const parseMotion = <T>(keys: string): PossibleMotion<State<T>> => {
+  if (!keys.length) return { valid: true };
+  const match = /^(\d+)(.*)/.exec(keys);
+  if (match) {
+    const multiplier = parseInt(match[1], 10);
+    const result = parseMotion(match[2]);
+    if (!result.valid) return { valid: false };
+    if (!result.motion) return { valid: true };
+    return { valid: true, motion: repeat(multiplier, result.motion) };
+  }
   switch (keys[0]) {
     case "g":
       switch (keys[1]) {
@@ -87,13 +102,13 @@ const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
   const result = parseMotion(keys);
   if (!result.valid) return { ...state, keys: "" };
   if (!result.motion) return { ...state, keys };
-  return transition(state, result.motion);
+  return { ...result.motion(state), keys: "" };
 };
 
 const reducer = <T>(state: State<T>, action): State<T> => {
   switch (action.type) {
     case "goto":
-      return transition(state, _ => action.index);
+      return { ...state, selected: action.index, keys: "" };
     case "keydown":
       return handleKeySequence(state, state.keys + action.key);
     default:
@@ -114,6 +129,7 @@ const App = ({ slides }: Props) => {
       window.removeEventListener("keydown", onKeyDown);
     };
   });
+  console.log(state);
   return (
     <WithSidebar
       left={
