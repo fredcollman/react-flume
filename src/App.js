@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from "react";
+import React, { useState, useEffect, type Element } from "react";
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import TitleSlide from "./TitleSlide";
@@ -7,7 +7,7 @@ import SimpleSlide from "./SimpleSlide";
 import Thumbnails from "./Thumbnails";
 import WithSidebar from "./WithSidebar";
 
-const slides = [
+const SLIDES = [
   {
     slide: <TitleSlide title="Title Slide" subtitle="by Sub Title" />,
     notes: "Welcome to the presentation",
@@ -32,15 +32,44 @@ const slides = [
     ),
     notes: "Max 5 bullets per slide",
   },
-];
+].map((slide, index) => ({ ...slide, id: `slide-${index}` }));
 
-const App = () => {
+type Props = {
+  slides: {
+    slide: Element<any>,
+    notes: string,
+    id: string,
+  }[],
+};
+
+const App = ({ slides }: Props) => {
   const [selected, setSelected] = useState(0);
+  const onKeyDown = event => {
+    switch (event.key) {
+      case "j":
+        setSelected(s => Math.min(s + 1, slides.length - 1));
+        break;
+      case "k":
+        setSelected(s => Math.max(s - 1, 0));
+        break;
+      case "G":
+        setSelected(slides.length - 1);
+        break;
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  });
   return (
     <WithSidebar
       left={
         <Thumbnails onSwitch={setSelected}>
-          {slides.map(slide => slide.slide)}
+          {slides.map(slide =>
+            React.cloneElement(slide.slide, { key: slide.id })
+          )}
         </Thumbnails>
       }
       right={
@@ -57,4 +86,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default hot(() => <App slides={SLIDES} />);
