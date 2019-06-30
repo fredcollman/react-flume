@@ -50,3 +50,15 @@ describe("multiple key strokes", () => {
     expect(result).toEqual({ items, selected: 1 });
   });
 });
+
+describe("the goto key (g)", () => {
+  it("can go to start", () => {
+    const result = parseCommands("gg")({ items, selected: 2 });
+    expect(result).toEqual({ items, selected: 0 });
+  });
+
+  it("does nothing on its own", () => {
+    const result = parseCommands("g")({ items, selected: 2 });
+    expect(result).toEqual({ items, selected: 2 });
+  });
+});

@@ -5,6 +5,11 @@ type State = {
   items: any[],
 };
 
+const first = (state: State) => ({
+  ...state,
+  selected: 0,
+});
+
 const next = (state: State) => ({
   ...state,
   selected: Math.min(state.selected + 1, state.items.length - 1),
@@ -30,6 +35,13 @@ const parseFirstCommand = (keys: string) => {
       return [previous, keys.substr(1)];
     case "G":
       return [last, keys.substr(1)];
+    case "g":
+      switch (keys[1]) {
+        case "g":
+          return [first, keys.substr(2)];
+        default:
+          return [identity, keys.substr(2)];
+      }
     default:
       return [identity, keys.substr(1)];
   }
