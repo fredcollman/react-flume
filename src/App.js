@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect, useReducer, type Element } from "react";
+import React, { useEffect, useReducer, type Element } from "react";
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import TitleSlide from "./TitleSlide";
@@ -54,14 +54,32 @@ const next = state => Math.min(state.selected + 1, state.items.length - 1);
 const previous = state => Math.max(state.selected - 1, 0);
 const last = state => state.items.length - 1;
 
+const transition = <T>(state: State<T>, callback): State<T> => ({
+  ...state,
+  keys: "",
+  selected: callback(state),
+});
+
 const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
-  switch (keys) {
+  switch (keys[0]) {
+    case "g":
+      switch (keys[1]) {
+        case "g":
+          return transition(state, _ => 0);
+        case undefined:
+          return { ...state, keys };
+        default:
+          break;
+      }
+      break;
     case "j":
-      return { ...state, keys: "", selected: next(state) };
+      return transition(state, next);
     case "k":
-      return { ...state, keys: "", selected: previous(state) };
+      return transition(state, previous);
     case "G":
-      return { ...state, keys: "", selected: last(state) };
+      return transition(state, last);
+    default:
+      break;
   }
   // reset due to unrecognised key sequence
   return { ...state, keys: "" };
@@ -70,7 +88,7 @@ const handleKeySequence = <T>(state: State<T>, keys): State<T> => {
 const reducer = <T>(state: State<T>, action): State<T> => {
   switch (action.type) {
     case "goto":
-      return { ...state, keys: "", selected: action.index };
+      return transition(state, _ => action.index);
     case "keydown":
       return handleKeySequence(state, state.keys + action.key);
     default:
@@ -91,7 +109,6 @@ const App = ({ slides }: Props) => {
       window.removeEventListener("keydown", onKeyDown);
     };
   });
-  console.log(state);
   return (
     <WithSidebar
       left={
