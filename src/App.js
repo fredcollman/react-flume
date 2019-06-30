@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect, type Element } from "react";
+import React, { useState, useEffect, useReducer, type Element } from "react";
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import TitleSlide from "./TitleSlide";
@@ -34,26 +34,51 @@ const SLIDES = [
   },
 ].map((slide, index) => ({ ...slide, id: `slide-${index}` }));
 
+type SlideInfo = {
+  slide: Element<any>,
+  notes: string,
+  id: string,
+};
+
 type Props = {
-  slides: {
-    slide: Element<any>,
-    notes: string,
-    id: string,
-  }[],
+  slides: SlideInfo[],
+};
+
+type State<T> = {
+  selected: number,
+  items: T[],
+};
+
+const reducer = <T>(state: State<T>, action): State<T> => {
+  switch (action.type) {
+    case "next":
+      return {
+        ...state,
+        selected: Math.min(state.selected + 1, state.items.length - 1),
+      };
+    case "previous":
+      return { ...state, selected: Math.max(state.selected - 1, 0) };
+    case "last":
+      return { ...state, selected: state.items.length - 1 };
+    case "goto":
+      return { ...state, selected: action.number };
+    default:
+      return state;
+  }
 };
 
 const App = ({ slides }: Props) => {
-  const [selected, setSelected] = useState(0);
+  const [state, dispatch] = useReducer(reducer, { selected: 0, items: slides });
   const onKeyDown = event => {
     switch (event.key) {
       case "j":
-        setSelected(s => Math.min(s + 1, slides.length - 1));
+        dispatch({ type: "next" });
         break;
       case "k":
-        setSelected(s => Math.max(s - 1, 0));
+        dispatch({ type: "previous" });
         break;
       case "G":
-        setSelected(slides.length - 1);
+        dispatch({ type: "last" });
         break;
     }
   };
@@ -66,7 +91,7 @@ const App = ({ slides }: Props) => {
   return (
     <WithSidebar
       left={
-        <Thumbnails onSwitch={setSelected}>
+        <Thumbnails onSwitch={i => dispatch({ type: "goto", number: i })}>
           {slides.map(slide =>
             React.cloneElement(slide.slide, { key: slide.id })
           )}
@@ -76,9 +101,9 @@ const App = ({ slides }: Props) => {
         <main className="bg-subtle padding-m">
           <div className="current-slide-container stack">
             <section className="current-slide">
-              {slides[selected].slide}
+              {slides[state.selected].slide}
             </section>
-            <aside>{slides[selected].notes}</aside>
+            <aside>{slides[state.selected].notes}</aside>
           </div>
         </main>
       }
