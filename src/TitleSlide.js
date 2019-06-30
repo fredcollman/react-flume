@@ -2,10 +2,10 @@
 import React from "react";
 import BaseSlide from "./BaseSlide";
 
-type Props = { height?: string, title: string, subtitle: string };
+type Props = { title: string, subtitle: string };
 
-const TitleSlide = ({ height, title, subtitle }: Props) => (
-  <BaseSlide className="cover" {...{ height }}>
+const TitleSlide = ({ title, subtitle }: Props) => (
+  <BaseSlide className="cover">
     <div className="center">
       <h1>{title}</h1>
       <h2>{subtitle}</h2>

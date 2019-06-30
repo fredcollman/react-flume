@@ -3,11 +3,13 @@ import React, { type Node } from "react";
 import classnames from "classnames";
 import AspectRatio from "./AspectRatio";
 
-type Props = { children: Node, height?: string, className?: string };
+type Props = { children: Node, className?: string };
 
-const BaseSlide = ({ height, children, className }: Props) => (
+const BaseSlide = ({ children, className }: Props) => (
   <AspectRatio ratio={16 / 9}>
-    <article className={classnames("padding-m", className)}>{children}</article>
+    <article className={classnames("padding-m border-thin", className)}>
+      {children}
+    </article>
   </AspectRatio>
 );
 

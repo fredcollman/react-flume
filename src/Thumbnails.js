@@ -6,7 +6,7 @@ type Props = { onSwitch?: number => mixed, children: Node };
 const Thumbnails = ({ onSwitch, children }: Props) => (
   <aside className="stack stack-m scale-half width-m">
     {React.Children.map(children, (child, index) => (
-      <div className="bg-subtle">
+      <div>
         <a
           className="color-standard"
           href={`#slide-${index}`}

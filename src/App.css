@@ -67,3 +67,23 @@ h1 {
 a {
   text-decoration: none;
 }
+
+.border-thin {
+  border: 1px solid var(--text-color);
+}
+
+.current-slide {
+  min-width: 50vw;
+}
+
+main {
+  min-height: 100vh;
+}
+
+.current-slide-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
